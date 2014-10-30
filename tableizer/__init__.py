@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 __author__ = 'mahieke'
 
-__version__ = '0.0.1'
+__version__ = '0.0.2'
 
 from collections import deque
 
