@@ -29,6 +29,7 @@ class Tableizer():
         self.__cols = cols
         self.__seperator = list(' '*cols)
         self.__table = []
+        self.__styleList = deque()
 
     @property
     def layout(self):
@@ -48,7 +49,7 @@ class Tableizer():
         return self.__cols
 
 
-    def add_row(self,content):
+    def add_row(self, content, style=None):
         '''
         Adds a row to the table. This row must have :__cols columns.
 
@@ -61,14 +62,14 @@ class Tableizer():
         if len(content) != self.__cols:
             raise ValueError('"content" parameter must have {} elements'.format(self.__cols))
 
-        self.__add_row(content)
+        self.__add_row(content, style)
 
 
-    def add_seperator(self):
+    def add_seperator(self, style=None):
         self.__table.append(self.__seperator)
 
 
-    def add_rrow(self, content):
+    def add_rrow(self, content, style=None):
         '''
         Adds a row with less columns than :__cols aligned to the right of the table
 
@@ -84,10 +85,10 @@ class Tableizer():
         to_add = deque()
         to_add.extend(content)
         to_add.extendleft(' '*(self.__cols - len(to_add)))
-        self.__add_row(list(to_add))
+        self.__add_row(list(to_add), style)
 
 
-    def add_lrow(self, content):
+    def add_lrow(self, content, style=None):
         '''
         Adds a row with less columns than :__cols aligned to the left of the table
 
@@ -103,10 +104,10 @@ class Tableizer():
         to_add = deque()
         to_add.extend(content)
         to_add.extend(' '*(self.__cols - len(to_add)))
-        self.__add_row(list(to_add))
+        self.__add_row(list(to_add), style)
 
 
-    def __add_row(self, content):
+    def __add_row(self, content, style=None):
         '''
         Adds a row for a table
         :param content: list with content for each row
@@ -114,6 +115,13 @@ class Tableizer():
         '''
         u_content = [str(element).decode('UTF-8') for element in content]
         entries = self.__tableize(u_content)
+
+        for i in range(len(entries)):
+            if style:
+                self.__styleList.append(style)
+            else:
+                self.__styleList.append('')
+
         self.__table.extend(entries)
 
 
@@ -158,4 +166,5 @@ class Tableizer():
 
     def print_table(self):
         for row in self.__table:
-            print(self.__layout_str.format(*row))
+            print(self.__styleList[0] + self.__layout_str.format(*row))
+            self.__styleList.rotate(-1)
