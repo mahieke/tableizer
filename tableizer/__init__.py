@@ -65,7 +65,7 @@ class Tableizer():
 
 
     def add_seperator(self):
-        self.__add_row(self.__seperator)
+        self.__table.extend(self.__seperator)
 
 
     def add_rrow(self, content):
