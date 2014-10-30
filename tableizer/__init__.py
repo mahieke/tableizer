@@ -66,6 +66,11 @@ class Tableizer():
 
 
     def add_seperator(self, style=None):
+        if style:
+            self.__styleList.append(style)
+        else:
+            self.__styleList.append('')
+
         self.__table.append(self.__seperator)
 
 
