@@ -55,17 +55,17 @@ class Tableizer():
         :param content: list with content for each column or empty string for a newline
         :return: None
         '''
-        if not isinstance(content, list) and content != None:
+        if not isinstance(content, list):
             raise TypeError('"content" parameter must be a list')
 
-        if content != None and len(content) != self.__cols:
+        if len(content) != self.__cols:
             raise ValueError('"content" parameter must have {} elements'.format(self.__cols))
 
         self.__add_row(content)
 
 
     def add_seperator(self):
-        self.__table.extend(self.__seperator)
+        self.__table.append(self.__seperator)
 
 
     def add_rrow(self, content):
@@ -112,7 +112,7 @@ class Tableizer():
         :param content: list with content for each row
         :return: None
         '''
-        u_content = [element.decode('UTF-8') for element in content]
+        u_content = [str(element).decode('UTF-8') for element in content]
         entries = self.__tableize(u_content)
         self.__table.extend(entries)
 
