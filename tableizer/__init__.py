@@ -61,8 +61,8 @@ class Tableizer():
         if content != None and len(content) != self.__cols:
             raise ValueError('"content" parameter must have {} elements'.format(self.__cols))
 
-        if content == None:
-            content = list(' '*(self.__cols))
+        if not content:
+            content = self.__seperator
 
         self.__add_row(content)
 
@@ -74,18 +74,14 @@ class Tableizer():
         :param content: list with content each column or a string for one column
         :return: None
         '''
-        if not isinstance(content, list) and not isinstance(content, str):
+        if not isinstance(content, list):
             raise TypeError('"content" parameter must be a list')
 
         if isinstance(content, list) and len(content) >= self.__cols:
             raise ValueError('"content" parameter must have less elements than {}'.format(self.__cols))
 
         to_add = deque()
-        if isinstance(content, str):
-            to_add.append(content)
-        else:
-            to_add.extend(content)
-
+        to_add.extend(content)
         to_add.extendleft(' '*(self.__cols - len(to_add)))
         self.__add_row(list(to_add))
 
@@ -97,18 +93,14 @@ class Tableizer():
         :param content: list with content each column
         :return: None
         '''
-        if not isinstance(content, list) and not isinstance(content, str):
+        if not isinstance(content, list):
             raise TypeError('"content" parameter must be a list')
 
         if isinstance(content, list) and len(content) >= self.__cols:
             raise ValueError('"content" parameter must have less elements than ' + self.__cols)
 
         to_add = deque()
-        if isinstance(content, str):
-            to_add.append(content)
-        else:
-            to_add.extend(content)
-
+        to_add.extend(content)
         to_add.extend(' '*(self.__cols - len(to_add)))
         self.__add_row(list(to_add))
 
@@ -126,7 +118,7 @@ class Tableizer():
 
     def __tableize(self, content):
         '''
-        rows which are longer than defined into several rows
+        Divides cols which are longer than defined into several rows
 
         :param content:
         :return:
