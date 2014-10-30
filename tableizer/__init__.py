@@ -48,7 +48,7 @@ class Tableizer():
         return self.__cols
 
 
-    def add_row(self,content=None):
+    def add_row(self,content):
         '''
         Adds a row to the table. This row must have :__cols columns.
 
@@ -61,10 +61,11 @@ class Tableizer():
         if content != None and len(content) != self.__cols:
             raise ValueError('"content" parameter must have {} elements'.format(self.__cols))
 
-        if not content:
-            content = self.__seperator
-
         self.__add_row(content)
+
+
+    def add_seperator(self):
+        self.__add_row(self.__seperator)
 
 
     def add_rrow(self, content):
@@ -111,7 +112,7 @@ class Tableizer():
         :param content: list with content for each row
         :return: None
         '''
-        u_content= [element.decode('UTF-8') for element in content]
+        u_content = [element.decode('UTF-8') for element in content]
         entries = self.__tableize(u_content)
         self.__table.extend(entries)
 
