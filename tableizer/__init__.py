@@ -86,7 +86,7 @@ class Tableizer():
         else:
             self.__styleList.append('')
 
-        self.__table.append(self.__seperator)
+        self.__table.append(self.__layout_str.format(*self.__seperator))
 
 
     def add_rrow(self, content, style=None):
