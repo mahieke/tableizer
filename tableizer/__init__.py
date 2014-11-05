@@ -57,7 +57,7 @@ class Tableizer():
             raise Exception('The given layout must fit in the row length of ' + str(self.__width) + ' chars.')
 
         self.__layout = layout
-        self.__layout_str = u'{:' + '} {:'.join(str(s) for s in layout) + '}'
+        self.__layout_str = '{:' + '} {:'.join(str(s) for s in layout) + '}'
         self.__seperator = list(' '*self.__cols)
 
 
@@ -147,7 +147,7 @@ class Tableizer():
         :param content: list with content for each row
         :return: None
         '''
-        u_content = [str(element).decode('UTF-8') for element in content]
+        u_content = [str(element) for element in content]
         entries = self.__tableize(u_content)
 
         for i in range(len(entries)):
@@ -194,7 +194,7 @@ class Tableizer():
                 else:
                     i += 1
 
-        return map(lambda x:self.__layout_str.format(*map(lambda y:y.strip(),x)),outp)
+        return [self.__layout_str.format(*[y.strip() for y in x]) for x in outp]
 
 
     def __check_layout(self):
